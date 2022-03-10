@@ -6,11 +6,25 @@ fn read_string() -> String {
         panic!();
     }
     return string;
-}  
+}
+
+struct TheNumber(i32);
+
+fn add_number(the_one: &mut TheNumber, to_add: i32) {
+    the_one.0 = the_one.0 + to_add;
+}
+
+fn multiply_number(the_one: &mut TheNumber, to_multiply: i32) {
+    the_one.0 = the_one.0 * to_multiply;
+}
+
+fn result_number(the_one: TheNumber) {
+    println!("The final number is: {}", the_one.0);
+}
 
 fn main() {
     println!("Insert start number:");
-    let mut start_number = read_string().trim().parse::<i32>().unwrap();
+    let mut start_number = TheNumber(read_string().trim().parse::<i32>().unwrap());
     loop {
         println!("choose an operation: sum or mult or exit");
         let op = read_string();
@@ -18,17 +32,17 @@ fn main() {
             "sum" => {
                 println!("Type a number:");
                 let first = read_string().trim().parse::<i32>().unwrap();
-                start_number = start_number + first;
+                add_number(&mut start_number, first);
             },
             "mult" => {
                 println!("Type a number:");
                 let first = read_string().trim().parse::<i32>().unwrap();
-                start_number = start_number * first;
+                multiply_number(&mut start_number, first);
             },
             "exit" => break,
             "" => continue,
             x => println!("Ivalid operation {:?}", x),
         }
     }
-    println!("The final number is: {start_number}");
+    result_number(start_number);
 }
